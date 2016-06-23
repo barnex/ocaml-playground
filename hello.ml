@@ -10,3 +10,5 @@ let avg a b =
 let () = 
         print_endline (string_of_float (average 1. 2.));
         print_endline (string_of_float (avg 1. 2.));
+        let i = ref 0;;
+        print_endline (string_of_int i);
