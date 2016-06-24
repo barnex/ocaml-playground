@@ -1,0 +1,3 @@
+#! /bin/bash
+ocamlfind ocamlopt -o a.out -linkpkg -package graphics *.ml
+./clean
