@@ -33,3 +33,9 @@ let draw_rectf x y w h: unit =
 let fill_circlef x y r: unit =
         fill_circle (int_of_float x) (int_of_float y) (int_of_float r);
 ;;
+
+let draw_rect2 r: unit =
+     let w = r.x2 -. r.x1 and
+     h = r.y2 -. r.y1 in
+     fill_rectf r.x1 r.y1 w h;
+;;
