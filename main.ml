@@ -21,25 +21,36 @@ let pad1 = point (2*q) (boxh/2)
 let pad2 = point (boxw-q) (boxh/2)
 
 
+let debugln (): unit =
+    moveto (2*q) (current_y() - texth);
+;;
+
+let debug_string str: unit=
+    draw_string str;
+    debugln();
+;;
+    
+
 let debug_point label xy: unit =
-        let x, y = xy in
-        draw_string label;
-        draw_string " ";
-        draw_string (string_of_int x);
-        draw_string " ";
-        draw_string (string_of_int y);
-        moveto (2*q) (current_y() - texth);
+    let x, y = xy in
+    draw_string label;
+    draw_string " ";
+    draw_string (string_of_int x);
+    draw_string " ";
+    draw_string (string_of_int y);
+    debugln ();
 ;;
 
 
 let debug_status (): unit =
-        set_color green;
-        moveto (2*q) (boxh - 2*q);
+    set_color green;
+    moveto (2*q) (boxh - 2*q);
 
-        debug_point "mouse_pos" (mouse_pos ());
-        debug_point "ball"      (ball.x, ball.y);
-        debug_point "v"         (v.x, v.y);
+    debug_point "mouse_pos" (mouse_pos ());
+    debug_point "ball"      (ball.x, ball.y);
+    debug_point "v"         (v.x, v.y);
 ;;
+
 
 let draw_pad pad: unit =
         fill_rect (pad.x-padw/2) (pad.y-padh/2) padw padh
@@ -59,7 +70,6 @@ let draw (): unit =
     set_color blue;
     draw_pad pad2;
 
-    debug_status ();
 
 ;;
 
@@ -90,6 +100,10 @@ let main (): unit =
         move_ball ();
 
         draw ();
+        debug_status ();
+        if key_pressed () then
+                debug_string "press";
+
         sleep_until(start +. (1.0/.60.0));
         synchronize ();
     done;
