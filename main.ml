@@ -72,6 +72,13 @@ let rec sleep_until until: unit =
 ;;
 
 
+let move_ball (): unit =
+        ball.x <- ball.x + v.x;
+        ball.y <- ball.y + v.y;
+        v.x <- if ball.x <= 2*q || ball.x >= boxw - q then -v.x else v.x;
+        v.y <- if ball.y <= 2*q || ball.y >= boxh - q then -v.y else v.y;
+;;
+
 
 let main (): unit =
     open_graph " 510x310";
@@ -79,10 +86,9 @@ let main (): unit =
 
     for i = 1 to 10000000 do 
         let start = Unix.gettimeofday() in
-        ball.x <- ball.x + v.x;
-        ball.y <- ball.y + v.y;
-        v.x <- if ball.x <= 2*q || ball.x >= boxw - q then -v.x else v.x;
-        v.y <- if ball.y <= 2*q || ball.y >= boxh - q then -v.y else v.y;
+
+        move_ball ();
+
         draw ();
         sleep_until(start +. (1.0/.60.0));
         synchronize ();
