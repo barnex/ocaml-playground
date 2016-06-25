@@ -10,14 +10,43 @@ let point x y: point = {x=x; y=y};
 
 
 type rect = {
-        mutable x1: float;
-        mutable y1: float;
-        mutable x2: float;
-        mutable y2: float;
+        mutable x: float;
+        mutable y: float;
+        mutable rx: float;
+        mutable ry: float;
 }
 
-let rect x1 y1 x2 y2: rect =
-        {x1=x1; y1=y1; x2=x2; y2=y2};
+let rect x1 y1 x2 y2: rect = {
+        x  = (x1+.x2)/.2.0; 
+        y  = (y1+.y2)/.2.0;
+        rx = (x2-.x1)/.2.0; 
+        ry = (y2-.y1)/.2.0;
+    }
+;;
+
+
+let x1 (r:rect) = 
+        r.x -. r.rx;
+;;
+
+let x2 (r:rect) = 
+        r.x +. r.rx;
+;;
+
+let y1 (r:rect) = 
+        r.y -. r.ry;
+;;
+
+let y2 (r:rect) = 
+        r.y +. r.ry;
+;;
+
+let w (r:rect) =
+        2.0 *. r.rx;
+;;
+
+let h (r:rect) =
+        2.0 *. r.ry;
 ;;
 
 
@@ -35,7 +64,16 @@ let fill_circlef x y r: unit =
 ;;
 
 let draw_rect2 r: unit =
-     let w = r.x2 -. r.x1 and
-     h = r.y2 -. r.y1 in
-     fill_rectf r.x1 r.y1 w h;
+     draw_rectf (x1 r) (y1 r) (w r) (h r);
 ;;
+
+class boxed =
+        object (self)
+                val mutable x = 0.0;
+                val mutable y = 0.0;
+                val mutable rx = 0.0;
+                val mutable ry = 0.0;
+                method x1 = x -. rx;
+        end
+;;
+

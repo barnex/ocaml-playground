@@ -8,19 +8,20 @@ let boxw = 500.0
 let boxh = 300.0
 let box = rect q q (boxw+.q) (boxh+.q)
 
+
 let padw = q
 let padh = 10.0 *. q
 let padr = padh /. 2.0
 let pad_speed = 4.0
 
-let v    = point 3.5           2.5
+let v    = point 3.0           2.0
 let ball = point (boxw /. 2.0) (boxh /. 2.0)
 
 let pad1 = point (4.0 *. q)         (boxh /. 2.0)
-let pad2 = point (box.x2 -. 4.0*.q) (boxh /. 2.0)
+let pad2 = point ((x2 box) -. 4.0*.q) (boxh /. 2.0)
 
 
-let draw_pad pad: unit =
+let draw_pad (pad: point): unit =
     fill_rectf (pad.x -. padw /. 2.0) (pad.y -. padr) padw padh
 ;;
 
@@ -29,7 +30,7 @@ let draw (): unit =
     clear_graph ();
 
     set_color black;
-    draw_rectf q q boxw boxh;
+    draw_rect2 box;
     fill_circlef ball.x ball.y q;
 
     set_color red;
@@ -48,8 +49,8 @@ let mouse_posf (): float * float =
 
 let debug_status (): unit =
     Debug.start ();
-    Debug.point "mouse_pos" (mouse_posf ());
-    Debug.point "ball"      (ball.x, ball.y);
+    Debug.point "box x1, y1" ((x1 box), (y1 box));
+    Debug.point "box x2, y2" ((x2 box), (y2 box));
     Debug.point "v"         (v.x, v.y);
 ;;
 
@@ -58,8 +59,8 @@ let debug_status (): unit =
 let move_ball (): unit =
     ball.x <- ball.x +. v.x;
     ball.y <- ball.y +. v.y;
-    v.x <- if ball.x <= box.x1 || ball.x >= box.x2 then -.v.x else v.x;
-    v.y <- if ball.y <= box.y1 || ball.y >= box.y2 then -.v.y else v.y;
+    v.x <- if ball.x <= (x1 box) || ball.x >= (x2 box) then -.v.x else v.x;
+    v.y <- if ball.y <= (y1 box) || ball.y >= (y2 box) then -.v.y else v.y;
 
     let top = pad1.y +. padr in
     let bottom = pad1.y -. padr in
