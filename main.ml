@@ -13,6 +13,7 @@ let q = 10
 let texth = 16
 let padw = q
 let padh = 10*q
+let pad_speed = 4
 
 let v = point 2 1
 let ball = point (boxw/2) (boxh/2)
@@ -24,6 +25,7 @@ let pad2 = point (boxw-q) (boxh/2)
 let debugln (): unit =
     moveto (2*q) (current_y() - texth);
 ;;
+
 
 let debug_string str: unit=
     draw_string str;
@@ -53,7 +55,7 @@ let debug_status (): unit =
 
 
 let draw_pad pad: unit =
-        fill_rect (pad.x-padw/2) (pad.y-padh/2) padw padh
+    fill_rect (pad.x-padw/2) (pad.y-padh/2) padw padh
 ;;
 
 
@@ -90,6 +92,19 @@ let move_ball (): unit =
 ;;
 
 
+let limit x min max: int  =
+        if x < min then min else
+        if x > max then max else x;
+;;
+
+let move_pad1 (): unit =
+        let x,y = mouse_pos() in
+        if y > pad1.y then pad1.y <- pad1.y + pad_speed;
+        if y < pad1.y then pad1.y <- pad1.y - pad_speed;
+        pad1.y <- (limit (pad1.y) (padh/2+q) (boxh-padh/2));
+;;
+
+
 let main (): unit =
     open_graph " 510x310";
     auto_synchronize false; 
@@ -97,12 +112,14 @@ let main (): unit =
     for i = 1 to 10000000 do 
         let start = Unix.gettimeofday() in
 
+        move_pad1();
+
         move_ball ();
 
         draw ();
         debug_status ();
         if key_pressed () then
-                debug_string "press";
+                debug_string (String.make 1 (read_key()));
 
         sleep_until(start +. (1.0/.60.0));
         synchronize ();
