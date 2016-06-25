@@ -1,10 +1,10 @@
-open Graphics
 open Geom
+open Graphics
+open Util
 
 let boxw = 500
 let boxh = 300
 let q = 10
-let texth = 16
 let padw = q
 let padh = 10*q
 let pad_speed = 4
@@ -44,13 +44,6 @@ let debug_status (): unit =
 ;;
 
 
-let rec sleep_until until: unit =
-     let secs = (until -. Unix.gettimeofday()) in
-     if secs > 0.0 then
-         try ignore (Unix.select [] [] [] secs) with
-         Unix.Unix_error(Unix.EINTR, "select", "") -> sleep_until until
-;;
-
 
 let move_ball (): unit =
         ball.x <- ball.x + v.x;
@@ -60,10 +53,6 @@ let move_ball (): unit =
 ;;
 
 
-let limit x min max: int  =
-        if x < min then min else
-        if x > max then max else x;
-;;
 
 let move_pad1 (): unit =
         let x,y = mouse_pos() in
@@ -107,7 +96,7 @@ let main (): unit =
                 Debug.string (String.make 1 (read_key()));
 
         synchronize ();
-        sleep_until(start +. (1.0/.60.0));
+        Util.sleep_until(start +. (1.0/.60.0));
     done;
 ;; 
 

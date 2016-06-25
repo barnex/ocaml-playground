@@ -4,5 +4,9 @@ rm -f a.out
 ocamlfind ocamlopt -o a.out -linkpkg \
 		-package graphics \
 		-package unix \
-		*.ml
+		debug.ml \
+		geom.ml \
+		util.ml \
+		main.ml
+
 ./clean
