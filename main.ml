@@ -15,7 +15,7 @@ let padr = padh /. 2.0
 let pad_speed = 4.0
 
 let v    = point 3.0           2.0
-let ball = point (boxw /. 2.0) (boxh /. 2.0)
+let ball = point box.x box.y
 
 let pad1 = point (4.0 *. q)           (box.ry)
 let pad2 = point ((x2 box) -. 4.0*.q) (box.ry)
@@ -77,7 +77,7 @@ let move_pad1 (): unit =
     let x,y = mouse_posf() in
     if y > pad1.y then pad1.y <- pad1.y +. pad_speed;
     if y < pad1.y then pad1.y <- pad1.y -. pad_speed;
-    pad1.y <- (limit (pad1.y) (padr+.q) (boxh-.padr));
+    pad1.y <- (limit (pad1.y) (padr+.q) ((y2 box) -.padr));
 ;;
 
 
