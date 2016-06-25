@@ -7,7 +7,7 @@ let rec sleep_until until: unit =
 ;;
 
 
-let limit x min max: int  =
+let limit x min max: float  =
         if x < min then min else
         if x > max then max else x;
 ;;

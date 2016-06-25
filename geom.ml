@@ -24,3 +24,12 @@ let rect x1 y1 x2 y2: rect =
 let fill_rectf x y w h: unit =
         fill_rect (int_of_float x) (int_of_float y) (int_of_float w) (int_of_float h);
 ;;
+
+
+let draw_rectf x y w h: unit =
+        draw_rect (int_of_float x) (int_of_float y) (int_of_float w) (int_of_float h);
+;;
+
+let fill_circlef x y r: unit =
+        fill_circle (int_of_float x) (int_of_float y) (int_of_float r);
+;;

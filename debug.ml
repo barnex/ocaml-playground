@@ -18,9 +18,9 @@ let point label xy: unit =
     let x, y = xy in
     draw_string label;
     draw_string " ";
-    draw_string (string_of_int x);
+    draw_string (string_of_float x);
     draw_string " ";
-    draw_string (string_of_int y);
+    draw_string (string_of_float y);
     ln ();
 ;;
 
