@@ -2,10 +2,12 @@ open Geom
 open Graphics
 open Util
 
+let q = 10.0
+
 let boxw = 500.0
 let boxh = 300.0
+let box = rect q q (boxw+.q) (boxh+.q)
 
-let q = 10.0
 let padw = q
 let padh = 10.0 *. q
 let padr = padh /. 2.0
@@ -15,7 +17,7 @@ let v    = point 3.5           2.5
 let ball = point (boxw /. 2.0) (boxh /. 2.0)
 
 let pad1 = point (4.0 *. q)         (boxh /. 2.0)
-let pad2 = point (boxw -. 3.0*.q)   (boxh /. 2.0)
+let pad2 = point (box.x2 -. 4.0*.q) (boxh /. 2.0)
 
 
 let draw_pad pad: unit =
@@ -27,7 +29,7 @@ let draw (): unit =
     clear_graph ();
 
     set_color black;
-    draw_rectf q q (boxw -. q) (boxh -. q);
+    draw_rectf q q boxw boxh;
     fill_circlef ball.x ball.y q;
 
     set_color red;
@@ -56,8 +58,8 @@ let debug_status (): unit =
 let move_ball (): unit =
     ball.x <- ball.x +. v.x;
     ball.y <- ball.y +. v.y;
-    v.x <- if ball.x <= 2.0*.q || ball.x >= boxw -. q then -.v.x else v.x;
-    v.y <- if ball.y <= 2.0*.q || ball.y >= boxh -. q then -.v.y else v.y;
+    v.x <- if ball.x <= box.x1 || ball.x >= box.x2 then -.v.x else v.x;
+    v.y <- if ball.y <= box.y1 || ball.y >= box.y2 then -.v.y else v.y;
 
     let top = pad1.y +. padr in
     let bottom = pad1.y -. padr in
@@ -98,7 +100,7 @@ let move_pad2 (): unit =
 
 
 let main (): unit =
-    open_graph " 510x310";
+    open_graph " 520x320";
     auto_synchronize false; 
 
     for i = 1 to 10000000 do 
