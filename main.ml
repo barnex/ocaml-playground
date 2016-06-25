@@ -1,6 +1,5 @@
 open Graphics
 open Geom
-open Debug
 
 let boxw = 500
 let boxh = 300
@@ -38,10 +37,10 @@ let draw (): unit =
 
 
 let debug_status (): unit =
-    debug_start ();
-    debug_point "mouse_pos" (mouse_pos ());
-    debug_point "ball"      (ball.x, ball.y);
-    debug_point "v"         (v.x, v.y);
+    Debug.start ();
+    Debug.point "mouse_pos" (mouse_pos ());
+    Debug.point "ball"      (ball.x, ball.y);
+    Debug.point "v"         (v.x, v.y);
 ;;
 
 
@@ -105,7 +104,7 @@ let main (): unit =
         debug_status ();
 
         if key_pressed () then
-                debug_string (String.make 1 (read_key()));
+                Debug.string (String.make 1 (read_key()));
 
         synchronize ();
         sleep_until(start +. (1.0/.60.0));

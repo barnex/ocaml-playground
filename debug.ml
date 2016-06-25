@@ -3,29 +3,29 @@ open Graphics
 let q = 10
 let texth = 10
 
-let debugln (): unit =
+let ln (): unit =
     moveto (2*q) (current_y() - texth);
 ;;
 
 
-let debug_string str: unit=
+let string str: unit=
     draw_string str;
-    debugln();
+    ln();
 ;;
     
 
-let debug_point label xy: unit =
+let point label xy: unit =
     let x, y = xy in
     draw_string label;
     draw_string " ";
     draw_string (string_of_int x);
     draw_string " ";
     draw_string (string_of_int y);
-    debugln ();
+    ln ();
 ;;
 
 
-let debug_start (): unit=
+let start (): unit=
     set_color green;
     moveto (2*q) ((size_y()) - 3*q);
 ;;
