@@ -17,8 +17,8 @@ let pad_speed = 4.0
 let v    = point 3.0           2.0
 let ball = point (boxw /. 2.0) (boxh /. 2.0)
 
-let pad1 = point (4.0 *. q)         (boxh /. 2.0)
-let pad2 = point ((x2 box) -. 4.0*.q) (boxh /. 2.0)
+let pad1 = point (4.0 *. q)           (box.ry)
+let pad2 = point ((x2 box) -. 4.0*.q) (box.ry)
 
 
 let draw_pad (pad: point): unit =
