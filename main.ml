@@ -104,6 +104,22 @@ let move_pad1 (): unit =
         pad1.y <- (limit (pad1.y) (padh/2+q) (boxh-padh/2));
 ;;
 
+let aiv = ref 0
+
+let move_pad2 (): unit =
+        let y = ball.y in
+
+        if v.x > 0 then
+        (if y > pad2.y + padh/2 then aiv := !aiv + 1;
+        if y < pad2.y - padh/2 then aiv := !aiv -1; )
+        else aiv := !aiv / 2;
+
+        aiv := if !aiv > pad_speed then pad_speed else !aiv;
+        aiv := if !aiv < -pad_speed then -pad_speed else !aiv;
+
+        pad2.y <- (limit (pad2.y + !aiv) (padh/2+q) (boxh-padh/2));
+;;
+
 
 let main (): unit =
     open_graph " 510x310";
@@ -113,6 +129,7 @@ let main (): unit =
         let start = Unix.gettimeofday() in
 
         move_pad1();
+        move_pad2();
 
         move_ball ();
 
