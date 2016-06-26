@@ -16,11 +16,19 @@ type rect = {
         mutable ry: float;
 }
 
-let rect x1 y1 x2 y2: rect = {
+let rect_of_bounds x1 y1 x2 y2: rect = {
         x  = (x1+.x2)/.2.0; 
         y  = (y1+.y2)/.2.0;
         rx = (x2-.x1)/.2.0; 
         ry = (y2-.y1)/.2.0;
+    }
+;;
+
+let rect_of_center_w_h x y w h: rect = {
+        x = x;
+        y = y;
+        rx = w /. 2.0;
+        ry = h /. 2.0;
     }
 ;;
 

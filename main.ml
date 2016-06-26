@@ -6,7 +6,7 @@ let q = 10.0
 
 let boxw = 500.0
 let boxh = 300.0
-let box = rect q q (boxw+.q) (boxh+.q)
+let box = rect_of_bounds q q (boxw+.q) (boxh+.q)
 
 
 let padw = q
