@@ -17,12 +17,12 @@ let pad_speed = 4.0
 let v    = point 3.0           2.0
 let ball = point box.x box.y
 
-let pad1 = point (4.0 *. q)           (box.ry)
-let pad2 = point ((x2 box) -. 4.0*.q) (box.ry)
+let pad1 = rect_of_center_w_h ( 0.0      +.4.0*.q) (box.ry) (padw) (padh)
+let pad2 = rect_of_center_w_h ((x2 box) -. 4.0*.q) (box.ry) (padw) (padh)
 
 
-let draw_pad (pad: point): unit =
-    fill_rectf (pad.x -. padw /. 2.0) (pad.y -. padr) padw padh
+let draw_pad (p: rect): unit =
+    fill_rectf (x1 p) (y1 p) (w p) (h p)
 ;;
 
 
@@ -59,16 +59,14 @@ let debug_status (): unit =
 let move_ball (): unit =
     ball.x <- ball.x +. v.x;
     ball.y <- ball.y +. v.y;
-    v.x <- if ball.x <= (x1 box) || ball.x >= (x2 box) then -.v.x else v.x;
-    v.y <- if ball.y <= (y1 box) || ball.y >= (y2 box) then -.v.y else v.y;
+    if ball.x <= (x1 box) || ball.x >= (x2 box) then v.x <- -.v.x;
+    if ball.y <= (y1 box) || ball.y >= (y2 box) then v.y <- -.v.y;
 
-    let top = pad1.y +. padr in
-    let bottom = pad1.y -. padr in
-    if v.x < 0.0 && ball.x <= pad1.x +. q && ball.y <= top && ball.y >= bottom then v.x <- -.v.x;
+    let pad = pad1 in
+    if v.x < 0.0 && ball.x <= (x2 pad) && ball.y <= (y2 pad) && ball.y >= (y1 pad) then v.x <- -.v.x;
 
-    let top = pad2.y +. padr in
-    let bottom = pad2.y -. padr in
-    if v.x > 0.0 && ball.x >= pad2.x -. q && ball.y <= top && ball.y >= bottom then v.x <- -.v.x;
+    let pad = pad2 in
+    if v.x > 0.0 && ball.x >= (x1 pad) && ball.y <= (y2 pad) && ball.y >= (y1 pad) then v.x <- -.v.x;
 ;;
 
 
