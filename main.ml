@@ -10,8 +10,8 @@ let box = boxed_of_bounds q q (boxw+.q) (boxh+.q)
 
 let v      = point 3.0 2.0
 
-let ball_r = 6.0 *. q
-let ball   = rect_of_center_w_h (box#x()) (box#y()) ball_r ball_r
+let ball_r = 3.0 *. q
+let ball   = boxed_of_center_w_h (box#x()) (box#y()) ball_r ball_r
 
 let pad_width  = q
 let pad_height = 10.0 *. q
@@ -30,15 +30,15 @@ let draw_pad (p: rect): unit =
 let draw_ball (): unit =
     set_color red;
     let r = 3.0*.ball_r/.3.0 in
-    fill_circlef ball.x ball.y (r/.2.0);
+    fill_circlef (ball#x()) (ball#y()) (r/.2.0);
 
     set_color 0xffa500;
     let r = 2.0*.ball_r/.3.0 in
-    fill_circlef ball.x ball.y (r/.2.0);
+    fill_circlef (ball#x()) (ball#y()) (r/.2.0);
 
     set_color yellow;
     let r = 1.0*.ball_r/.3.0 in
-    fill_circlef ball.x ball.y (r/.2.0);
+    fill_circlef (ball#x()) (ball#y()) (r/.2.0);
 ;;
 
 let draw_boxed b: unit=
@@ -75,16 +75,19 @@ let debug_status (): unit =
 
 
 let move_ball (): unit =
-    ball.x <- ball.x +. v.x;
-    ball.y <- ball.y +. v.y;
-    if (x1 ball) <= (box#x1()) || (x2 ball) >= (box#x2()) then v.x <- -.v.x;
-    if (y1 ball) <= (box#y1()) || (y2 ball) >= (box#y2()) then v.y <- -.v.y;
+    ball#transl v.x v.y;
+    if (ball#x1()) <= (box#x1()) || (ball#x2()) >= (box#x2()) then v.x <- -.v.x;
+    if (ball#y1()) <= (box#y1()) || (ball#y2()) >= (box#y2()) then v.y <- -.v.y;
 
     let pad = pad1 in
-    if v.x < 0.0 && (x1 ball) <= (x2 pad) && ball.y <= (y2 pad) && ball.y >= (y1 pad) then v.x <- -.v.x;
+    if v.x < 0.0 && (ball#x1()) <= (x2 pad) && (ball#y()) <= (y2 pad) && (ball#y()) >= (y1 pad) then (
+            v.x <- -.v.x;
+    );
 
     let pad = pad2 in
-    if v.x > 0.0 && (x2 ball) >= (x1 pad) && ball.y <= (y2 pad) && ball.y >= (y1 pad) then v.x <- -.v.x;
+    if v.x > 0.0 && (ball#x2()) >= (x1 pad) && (ball#y()) <= (y2 pad) && (ball#y()) >= (y1 pad) then (
+            v.x <- -.v.x;
+    );
 ;;
 
 
@@ -104,8 +107,8 @@ let move_pad2 (): unit =
         let pad = pad2 in
 
         if v.x > 0.0 then (
-                if ball.y > pad.y +. pad.ry then aiv := !aiv +. 1.0;
-                if ball.y < pad.y -. pad.ry then aiv := !aiv -. 1.0;
+                if ball#y() > pad.y +. pad.ry then aiv := !aiv +. 1.0;
+                if ball#y() < pad.y -. pad.ry then aiv := !aiv -. 1.0;
         ) else (
                 aiv := !aiv /. 2.0;
         );
