@@ -83,19 +83,19 @@ let move_pad1 (): unit =
 let aiv = ref 0.0
 
 let move_pad2 (): unit =
+        let pad = pad2 in
         let y = ball.y in
 
         if v.x > 0.0 then (
-                if y > pad2.y +. padr then aiv := !aiv +. 1.0;
-                if y < pad2.y -. padr then aiv := !aiv -. 1.0;
+                if y > pad.y +. padr then aiv := !aiv +. 1.0;
+                if y < pad.y -. padr then aiv := !aiv -. 1.0;
         ) else (
                 aiv := !aiv /. 2.0;
         );
 
-        aiv := if !aiv > pad_speed then pad_speed else !aiv;
-        aiv := if !aiv < -.pad_speed then -.pad_speed else !aiv;
-
-        pad2.y <- (limit (pad2.y +. !aiv) (padr+.q) (boxh-.padr));
+        aiv := limit (!aiv) (-.pad_speed) (pad_speed);
+        pad.y <- pad.y +. !aiv;
+        pad.y <- (limit (pad.y) ((y1 box)+.pad.ry) ((y2 box)-.pad.ry));
 ;;
 
 
