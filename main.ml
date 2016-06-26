@@ -61,10 +61,10 @@ let move_ball (): unit =
     if (y1 ball) <= (y1 box) || (y2 ball) >= (y2 box) then v.y <- -.v.y;
 
     let pad = pad1 in
-    if v.x < 0.0 && ball.x <= (x2 pad) && ball.y <= (y2 pad) && ball.y >= (y1 pad) then v.x <- -.v.x;
+    if v.x < 0.0 && (x1 ball) <= (x2 pad) && ball.y <= (y2 pad) && ball.y >= (y1 pad) then v.x <- -.v.x;
 
     let pad = pad2 in
-    if v.x > 0.0 && ball.x >= (x1 pad) && ball.y <= (y2 pad) && ball.y >= (y1 pad) then v.x <- -.v.x;
+    if v.x > 0.0 && (x2 ball) >= (x1 pad) && ball.y <= (y2 pad) && ball.y >= (y1 pad) then v.x <- -.v.x;
 ;;
 
 
