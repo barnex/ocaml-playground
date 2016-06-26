@@ -8,17 +8,15 @@ let boxw = 500.0
 let boxh = 300.0
 let box = rect_of_bounds q q (boxw+.q) (boxh+.q)
 
+let v      = point 3.0 2.0
+let ball_r = 4.0*.q
+let ball   = rect_of_center_w_h box.x box.y ball_r ball_r
 
 let padw = q
 let padh = 10.0 *. q
-let padr = padh /. 2.0
-let pad_speed = 4.0
-
-let v    = point 3.0           2.0
-let ball = point box.x box.y
-
 let pad1 = rect_of_center_w_h ( 0.0      +.4.0*.q) (box.ry) (padw) (padh)
 let pad2 = rect_of_center_w_h ((x2 box) -. 4.0*.q) (box.ry) (padw) (padh)
+let pad_speed = 4.0
 
 
 let draw_pad (p: rect): unit =
@@ -31,7 +29,7 @@ let draw (): unit =
 
     set_color black;
     draw_rect2 box;
-    fill_circlef ball.x ball.y q;
+    fill_circlef ball.x ball.y ball.rx;
 
     set_color red;
     draw_pad pad1;
@@ -59,8 +57,8 @@ let debug_status (): unit =
 let move_ball (): unit =
     ball.x <- ball.x +. v.x;
     ball.y <- ball.y +. v.y;
-    if ball.x <= (x1 box) || ball.x >= (x2 box) then v.x <- -.v.x;
-    if ball.y <= (y1 box) || ball.y >= (y2 box) then v.y <- -.v.y;
+    if (x1 ball) <= (x1 box) || (x2 ball) >= (x2 box) then v.x <- -.v.x;
+    if (y1 ball) <= (y1 box) || (y2 ball) >= (y2 box) then v.y <- -.v.y;
 
     let pad = pad1 in
     if v.x < 0.0 && ball.x <= (x2 pad) && ball.y <= (y2 pad) && ball.y >= (y1 pad) then v.x <- -.v.x;
@@ -84,11 +82,10 @@ let aiv = ref 0.0
 
 let move_pad2 (): unit =
         let pad = pad2 in
-        let y = ball.y in
 
         if v.x > 0.0 then (
-                if y > pad.y +. padr then aiv := !aiv +. 1.0;
-                if y < pad.y -. padr then aiv := !aiv -. 1.0;
+                if ball.y > pad.y +. pad.ry then aiv := !aiv +. 1.0;
+                if ball.y < pad.y -. pad.ry then aiv := !aiv -. 1.0;
         ) else (
                 aiv := !aiv /. 2.0;
         );
