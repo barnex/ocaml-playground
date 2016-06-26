@@ -102,10 +102,8 @@ let move_ball (): unit =
 let move_pad1 (): unit =
     let x,y = mouse_posf() in
     let pad = pad1 in
-    let newy = ref (pad#y()) in
-    if y > (pad#y()+.pad_speed) then newy := pad#y() +. pad_speed;
-    if y < (pad#y()-.pad_speed) then newy := pad#y() -. pad_speed;
-    pad#sety (limit (!newy) ((box#y1())+.pad#ry()) ((box#y2())-.pad#ry()));
+    pad#sety (limit (y) ((box#y1())+.pad#ry()) ((box#y2())-.pad#ry()));
+    pad#setx (limit (x) (box#x1()) (box#x1()+.100.0));
 ;;
 
 
