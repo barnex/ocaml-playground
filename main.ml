@@ -73,9 +73,10 @@ let move_ball (): unit =
 
 let move_pad1 (): unit =
     let x,y = mouse_posf() in
-    if y > pad1.y then pad1.y <- pad1.y +. pad_speed;
-    if y < pad1.y then pad1.y <- pad1.y -. pad_speed;
-    pad1.y <- (limit (pad1.y) (padr+.q) ((y2 box) -.padr));
+    let pad = pad1 in
+    if y > pad.y then pad.y <- pad.y +. pad_speed;
+    if y < pad.y then pad.y <- pad.y -. pad_speed;
+    pad.y <- (limit (pad.y) ((y1 box)+.pad.ry) ((y2 box)-.pad.ry));
 ;;
 
 
