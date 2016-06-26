@@ -9,14 +9,17 @@ let boxh = 300.0
 let box = rect_of_bounds q q (boxw+.q) (boxh+.q)
 
 let v      = point 3.0 2.0
-let ball_r = 4.0*.q
+
+let ball_r = 6.0 *. q
 let ball   = rect_of_center_w_h box.x box.y ball_r ball_r
 
-let padw = q
-let padh = 10.0 *. q
-let pad1 = rect_of_center_w_h ( 0.0      +.4.0*.q) (box.ry) (padw) (padh)
-let pad2 = rect_of_center_w_h ((x2 box) -. 4.0*.q) (box.ry) (padw) (padh)
-let pad_speed = 4.0
+let pad_width  = q
+let pad_height = 10.0 *. q
+let pad_speed  = 5.0
+
+let pad1 = rect_of_center_w_h ( 0.0      +.4.0*.q) (box.ry) (pad_width) (pad_height)
+let pad2 = rect_of_center_w_h ((x2 box) -. 4.0*.q) (box.ry) (pad_width) (pad_height)
+
 
 
 let draw_pad (p: rect): unit =
@@ -24,13 +27,28 @@ let draw_pad (p: rect): unit =
 ;;
 
 
+let draw_ball (): unit =
+    set_color red;
+    let r = 3.0*.ball_r/.3.0 in
+    fill_circlef ball.x ball.y (r/.2.0);
+
+    set_color 0xffa500;
+    let r = 2.0*.ball_r/.3.0 in
+    fill_circlef ball.x ball.y (r/.2.0);
+
+    set_color yellow;
+    let r = 1.0*.ball_r/.3.0 in
+    fill_circlef ball.x ball.y (r/.2.0);
+;;
+
 let draw (): unit =
     clear_graph ();
 
+
     set_color black;
     draw_rect2 box;
-    fill_circlef ball.x ball.y ball.rx;
 
+    draw_ball ();
     set_color red;
     draw_pad pad1;
 
@@ -74,7 +92,7 @@ let move_pad1 (): unit =
     let pad = pad1 in
     if y > pad.y then pad.y <- pad.y +. pad_speed;
     if y < pad.y then pad.y <- pad.y -. pad_speed;
-    pad.y <- (limit (pad.y) ((y1 box)+.pad.ry) ((y2 box)-.pad.ry));
+    pad.y <- limit (pad.y) ((y1 box)+.pad.ry) ((y2 box)-.pad.ry);
 ;;
 
 
@@ -92,7 +110,7 @@ let move_pad2 (): unit =
 
         aiv := limit (!aiv) (-.pad_speed) (pad_speed);
         pad.y <- pad.y +. !aiv;
-        pad.y <- (limit (pad.y) ((y1 box)+.pad.ry) ((y2 box)-.pad.ry));
+        pad.y <- limit (pad.y) ((y1 box)+.pad.ry) ((y2 box)-.pad.ry);
 ;;
 
 

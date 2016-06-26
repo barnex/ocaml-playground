@@ -75,13 +75,36 @@ let draw_rect2 r: unit =
      draw_rectf (x1 r) (y1 r) (w r) (h r);
 ;;
 
-class boxed =
+
+class boxed (cx:float) (cy:float) (rrx:float) (rry:float) =
         object (self)
-                val mutable x = 0.0;
-                val mutable y = 0.0;
-                val mutable rx = 0.0;
-                val mutable ry = 0.0;
-                method x1 = x -. rx;
+                val mutable x = cx;
+                val mutable y = cy;
+                val mutable rx = rrx;
+                val mutable ry = rry;
+                method x1 () = x -. rx;
+                method x2 () = x +. rx;
+                method y1 () = y -. ry;
+                method y2 () = y +. ry;
+                method w  () = 2.0 *. rx;
+                method h  () = 2.0 *. ry;
+                method set_bounds x1 y1 x2 y2 =
+                    x  <- (x1+.x2)/.2.0; 
+                    y  <- (y1+.y2)/.2.0;
+                    rx <- (x2-.x1)/.2.0; 
+                    ry <- (y2-.y1)/.2.0;
+                    self;
+               method set_center_w_h cx cy w h=
+                    x <- cx;
+                    y <- cy;
+                    rx <- w /. 2.0;
+                    ry <- h /. 2.0;
+                    self;
         end
 ;;
 
+
+let boxed_of_bounds x1 y1 x2 y2=
+        let b = new boxed 0.0 0.0 0.0 0.0 in
+        b#set_bounds x1 y1 x2 y2;
+;;
