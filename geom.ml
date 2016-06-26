@@ -24,7 +24,7 @@ let fill_circlef x y r: unit =
 ;;
 
 
-class boxed =
+class rect =
         object (self)
                 val mutable x = 0.0;
                 val mutable y = 0.0;
@@ -61,13 +61,13 @@ class boxed =
 ;;
 
 
-let boxed_of_bounds x1 y1 x2 y2=
-        let b = new boxed in
+let rect_of_bounds x1 y1 x2 y2=
+        let b = new rect in
         b#set_bounds x1 y1 x2 y2;
 ;;
 
 
-let boxed_of_center_w_h x y w h=
-        let b = new boxed in
+let rect_of_center_w_h x y w h=
+        let b = new rect in
         b#set_center_w_h x y w h;
 ;;

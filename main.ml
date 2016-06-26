@@ -6,16 +6,16 @@ let q = 10.0
 
 let boxw = 800.0
 let boxh = 600.0
-let box = boxed_of_bounds q q (boxw+.q) (boxh+.q)
+let box = rect_of_bounds q q (boxw+.q) (boxh+.q)
 
 let pad_width  = q
 let pad_height = 10.0 *. q
 let pad_speed  = 5.0
-let pad1 = boxed_of_center_w_h ( 0.0      +.4.0*.q) (box#ry()) (pad_width) (pad_height)
-let pad2 = boxed_of_center_w_h ((box#x2()) -. 4.0*.q) (box#ry()) (pad_width) (pad_height)
+let pad1 = rect_of_center_w_h ( 0.0      +.4.0*.q) (box#ry()) (pad_width) (pad_height)
+let pad2 = rect_of_center_w_h ((box#x2()) -. 4.0*.q) (box#ry()) (pad_width) (pad_height)
 
 let ball_r = 3.0 *. q
-let ball   = boxed_of_center_w_h (box#x()) (box#y()) ball_r ball_r
+let ball   = rect_of_center_w_h (box#x()) (box#y()) ball_r ball_r
 let v      = point 3.0 2.0
 
 let draw_ball () =
@@ -32,27 +32,30 @@ let draw_ball () =
     fill_circlef (ball#x()) (ball#y()) (r/.2.0);
 ;;
 
-let draw_boxed b =
+
+let draw_rect b =
     draw_rectf (b#x1()) (b#y1()) (b#w()) (b#h()); 
 ;;
 
-let fill_boxed b =
+
+let fill_rect b =
     fill_rectf (b#x1()) (b#y1()) (b#w()) (b#h()); 
 ;;
+
 
 let draw (): unit =
     clear_graph ();
 
 
     set_color black;
-    draw_boxed box;
+    draw_rect box;
 
     draw_ball ();
     set_color red;
-    fill_boxed pad1;
+    fill_rect pad1;
 
     set_color blue;
-    fill_boxed pad2;
+    fill_rect pad2;
 ;;
 
 
