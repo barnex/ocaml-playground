@@ -4,8 +4,8 @@ open Util
 
 let q = 10.0
 
-let boxw = 500.0
-let boxh = 300.0
+let boxw = 800.0
+let boxh = 600.0
 let box = boxed_of_bounds q q (boxw+.q) (boxh+.q)
 
 let v      = point 3.0 2.0
@@ -121,7 +121,7 @@ let move_pad2 (): unit =
 
 
 let main (): unit =
-    open_graph " 520x320";
+    open_graph " 820x620";
     auto_synchronize false; 
 
     for i = 1 to 10000000 do 
