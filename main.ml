@@ -17,14 +17,11 @@ let pad_width  = q
 let pad_height = 10.0 *. q
 let pad_speed  = 5.0
 
-let pad1 = rect_of_center_w_h ( 0.0      +.4.0*.q) (box#ry()) (pad_width) (pad_height)
-let pad2 = rect_of_center_w_h ((box#x2()) -. 4.0*.q) (box#ry()) (pad_width) (pad_height)
+let pad1 = boxed_of_center_w_h ( 0.0      +.4.0*.q) (box#ry()) (pad_width) (pad_height)
+let pad2 = boxed_of_center_w_h ((box#x2()) -. 4.0*.q) (box#ry()) (pad_width) (pad_height)
 
 
 
-let draw_pad (p: rect): unit =
-    fill_rectf (x1 p) (y1 p) (w p) (h p)
-;;
 
 
 let draw_ball (): unit =
@@ -41,8 +38,12 @@ let draw_ball (): unit =
     fill_circlef (ball#x()) (ball#y()) (r/.2.0);
 ;;
 
-let draw_boxed b: unit=
+let draw_boxed b =
     draw_rectf (b#x1()) (b#y1()) (b#w()) (b#h()); 
+;;
+
+let fill_boxed b =
+    fill_rectf (b#x1()) (b#y1()) (b#w()) (b#h()); 
 ;;
 
 let draw (): unit =
@@ -54,10 +55,10 @@ let draw (): unit =
 
     draw_ball ();
     set_color red;
-    draw_pad pad1;
+    fill_boxed pad1;
 
     set_color blue;
-    draw_pad pad2;
+    fill_boxed pad2;
 ;;
 
 
@@ -80,12 +81,12 @@ let move_ball (): unit =
     if (ball#y1()) <= (box#y1()) || (ball#y2()) >= (box#y2()) then v.y <- -.v.y;
 
     let pad = pad1 in
-    if v.x < 0.0 && (ball#x1()) <= (x2 pad) && (ball#y()) <= (y2 pad) && (ball#y()) >= (y1 pad) then (
+    if v.x < 0.0 && (ball#x1()) <= (pad#x2()) && (ball#y()) <= (pad#y2()) && (ball#y()) >= (pad#y1()) then (
             v.x <- -.v.x;
     );
 
     let pad = pad2 in
-    if v.x > 0.0 && (ball#x2()) >= (x1 pad) && (ball#y()) <= (y2 pad) && (ball#y()) >= (y1 pad) then (
+    if v.x > 0.0 && (ball#x2()) >= (pad#x1()) && (ball#y()) <= (pad#y2()) && (ball#y()) >= (pad#y1()) then (
             v.x <- -.v.x;
     );
 ;;
@@ -95,9 +96,10 @@ let move_ball (): unit =
 let move_pad1 (): unit =
     let x,y = mouse_posf() in
     let pad = pad1 in
-    if y > pad.y then pad.y <- pad.y +. pad_speed;
-    if y < pad.y then pad.y <- pad.y -. pad_speed;
-    pad.y <- limit (pad.y) ((box#y1())+.pad.ry) ((box#y2())-.pad.ry);
+    let newy = ref 0.0 in
+    if y > pad#y() then newy := pad#y() +. pad_speed;
+    if y < pad#y() then newy := pad#y() -. pad_speed;
+    pad#sety (limit (!newy) ((box#y1())+.pad#ry()) ((box#y2())-.pad#ry()));
 ;;
 
 
@@ -107,15 +109,14 @@ let move_pad2 (): unit =
         let pad = pad2 in
 
         if v.x > 0.0 then (
-                if ball#y() > pad.y +. pad.ry then aiv := !aiv +. 1.0;
-                if ball#y() < pad.y -. pad.ry then aiv := !aiv -. 1.0;
+                if ball#y() > pad#y()+. pad#ry() then aiv := !aiv +. 1.0;
+                if ball#y() < pad#y()-. pad#ry() then aiv := !aiv -. 1.0;
         ) else (
                 aiv := !aiv /. 2.0;
         );
 
         aiv := limit (!aiv) (-.pad_speed) (pad_speed);
-        pad.y <- pad.y +. !aiv;
-        pad.y <- limit (pad.y) ((box#y1())+.pad.ry) ((box#y2())-.pad.ry);
+        pad#sety (limit (pad#y() +. !aiv) ((box#y1())+.pad#ry()) ((box#y2())-.pad#ry()));
 ;;
 
 

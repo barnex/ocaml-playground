@@ -92,6 +92,8 @@ class boxed (cx:float) (cy:float) (rrx:float) (rry:float) =
                 method y2 () = y +. ry;
                 method w  () = 2.0 *. rx;
                 method h  () = 2.0 *. ry;
+                method setx cx = x <- cx;
+                method sety cy = y <- cy;
                 method set_bounds x1 y1 x2 y2 =
                     x  <- (x1+.x2)/.2.0; 
                     y  <- (y1+.y2)/.2.0;
