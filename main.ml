@@ -6,19 +6,19 @@ let q = 10.0
 
 let boxw = 500.0
 let boxh = 300.0
-let box = rect_of_bounds q q (boxw+.q) (boxh+.q)
+let box = boxed_of_bounds q q (boxw+.q) (boxh+.q)
 
 let v      = point 3.0 2.0
 
 let ball_r = 6.0 *. q
-let ball   = rect_of_center_w_h box.x box.y ball_r ball_r
+let ball   = rect_of_center_w_h (box#x()) (box#y()) ball_r ball_r
 
 let pad_width  = q
 let pad_height = 10.0 *. q
 let pad_speed  = 5.0
 
-let pad1 = rect_of_center_w_h ( 0.0      +.4.0*.q) (box.ry) (pad_width) (pad_height)
-let pad2 = rect_of_center_w_h ((x2 box) -. 4.0*.q) (box.ry) (pad_width) (pad_height)
+let pad1 = rect_of_center_w_h ( 0.0      +.4.0*.q) (box#ry()) (pad_width) (pad_height)
+let pad2 = rect_of_center_w_h ((box#x2()) -. 4.0*.q) (box#ry()) (pad_width) (pad_height)
 
 
 
@@ -41,12 +41,16 @@ let draw_ball (): unit =
     fill_circlef ball.x ball.y (r/.2.0);
 ;;
 
+let draw_boxed b: unit=
+    draw_rectf (b#x1()) (b#y1()) (b#w()) (b#h()); 
+;;
+
 let draw (): unit =
     clear_graph ();
 
 
     set_color black;
-    draw_rect2 box;
+    draw_boxed box;
 
     draw_ball ();
     set_color red;
@@ -65,8 +69,6 @@ let mouse_posf (): float * float =
 
 let debug_status (): unit =
     Debug.start ();
-    Debug.point "box x1, y1" ((x1 box), (y1 box));
-    Debug.point "box x2, y2" ((x2 box), (y2 box));
     Debug.point "v"         (v.x, v.y);
 ;;
 
@@ -75,8 +77,8 @@ let debug_status (): unit =
 let move_ball (): unit =
     ball.x <- ball.x +. v.x;
     ball.y <- ball.y +. v.y;
-    if (x1 ball) <= (x1 box) || (x2 ball) >= (x2 box) then v.x <- -.v.x;
-    if (y1 ball) <= (y1 box) || (y2 ball) >= (y2 box) then v.y <- -.v.y;
+    if (x1 ball) <= (box#x1()) || (x2 ball) >= (box#x2()) then v.x <- -.v.x;
+    if (y1 ball) <= (box#y1()) || (y2 ball) >= (box#y2()) then v.y <- -.v.y;
 
     let pad = pad1 in
     if v.x < 0.0 && (x1 ball) <= (x2 pad) && ball.y <= (y2 pad) && ball.y >= (y1 pad) then v.x <- -.v.x;
@@ -92,7 +94,7 @@ let move_pad1 (): unit =
     let pad = pad1 in
     if y > pad.y then pad.y <- pad.y +. pad_speed;
     if y < pad.y then pad.y <- pad.y -. pad_speed;
-    pad.y <- limit (pad.y) ((y1 box)+.pad.ry) ((y2 box)-.pad.ry);
+    pad.y <- limit (pad.y) ((box#y1())+.pad.ry) ((box#y2())-.pad.ry);
 ;;
 
 
@@ -110,7 +112,7 @@ let move_pad2 (): unit =
 
         aiv := limit (!aiv) (-.pad_speed) (pad_speed);
         pad.y <- pad.y +. !aiv;
-        pad.y <- limit (pad.y) ((y1 box)+.pad.ry) ((y2 box)-.pad.ry);
+        pad.y <- limit (pad.y) ((box#y1())+.pad.ry) ((box#y2())-.pad.ry);
 ;;
 
 
