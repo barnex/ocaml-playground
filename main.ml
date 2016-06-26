@@ -10,13 +10,18 @@ let box = rect_of_bounds q q (boxw+.q) (boxh+.q)
 
 let pad_width  = q
 let pad_height = 10.0 *. q
-let pad_speed  = 5.0
+let pad_speed  = 8.0
 let pad1 = rect_of_center_w_h ( 0.0      +.4.0*.q) (box#ry()) (pad_width) (pad_height)
 let pad2 = rect_of_center_w_h ((box#x2()) -. 4.0*.q) (box#ry()) (pad_width) (pad_height)
 
 let ball_r = 3.0 *. q
 let ball   = rect_of_center_w_h (box#x()) (box#y()) ball_r ball_r
 let v      = point 3.0 2.0
+
+let bg_col = black
+let fg_col = white
+let pad1_col = red
+let pad2_col = blue
 
 let draw_ball () =
     set_color red;
@@ -43,18 +48,23 @@ let fill_rect b =
 ;;
 
 
+let clear () =
+        set_color bg_col;
+        Graphics.fill_rect 0 0 (size_x()) (size_y());
+;;
+
 let draw (): unit =
-    clear_graph ();
+    
+    clear();
 
-
-    set_color black;
+    set_color fg_col;
     draw_rect box;
 
     draw_ball ();
-    set_color red;
+    set_color pad1_col;
     fill_rect pad1;
 
-    set_color blue;
+    set_color pad2_col;
     fill_rect pad2;
 ;;
 
@@ -69,7 +79,6 @@ let debug_status (): unit =
     Debug.start ();
     Debug.point "v"         (v.x, v.y);
 ;;
-
 
 
 let move_ball (): unit =
