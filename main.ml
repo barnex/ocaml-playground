@@ -8,23 +8,17 @@ let boxw = 800.0
 let boxh = 600.0
 let box = boxed_of_bounds q q (boxw+.q) (boxh+.q)
 
-let v      = point 3.0 2.0
-
-let ball_r = 3.0 *. q
-let ball   = boxed_of_center_w_h (box#x()) (box#y()) ball_r ball_r
-
 let pad_width  = q
 let pad_height = 10.0 *. q
 let pad_speed  = 5.0
-
 let pad1 = boxed_of_center_w_h ( 0.0      +.4.0*.q) (box#ry()) (pad_width) (pad_height)
 let pad2 = boxed_of_center_w_h ((box#x2()) -. 4.0*.q) (box#ry()) (pad_width) (pad_height)
 
+let ball_r = 3.0 *. q
+let ball   = boxed_of_center_w_h (box#x()) (box#y()) ball_r ball_r
+let v      = point 3.0 2.0
 
-
-
-
-let draw_ball (): unit =
+let draw_ball () =
     set_color red;
     let r = 3.0*.ball_r/.3.0 in
     fill_circlef (ball#x()) (ball#y()) (r/.2.0);
@@ -96,9 +90,9 @@ let move_ball (): unit =
 let move_pad1 (): unit =
     let x,y = mouse_posf() in
     let pad = pad1 in
-    let newy = ref 0.0 in
-    if y > pad#y() then newy := pad#y() +. pad_speed;
-    if y < pad#y() then newy := pad#y() -. pad_speed;
+    let newy = ref (pad#y()) in
+    if y > (pad#y()+.pad_speed) then newy := pad#y() +. pad_speed;
+    if y < (pad#y()-.pad_speed) then newy := pad#y() -. pad_speed;
     pad#sety (limit (!newy) ((box#y1())+.pad#ry()) ((box#y2())-.pad#ry()));
 ;;
 
