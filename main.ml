@@ -1,6 +1,7 @@
 open Geom
 open Graphics
 open Util
+open Core.Std
 
 let q = 10.0
 
@@ -75,10 +76,12 @@ let mouse_posf (): float * float =
 ;;
 
 
+(*
 let debug_status (): unit =
     Debug.start ();
     Debug.point "v"         (v.x, v.y);
 ;;
+*)
 
 
 let move_ball (): unit =
@@ -136,10 +139,7 @@ let main (): unit =
         move_ball ();
 
         draw ();
-        debug_status ();
-
-        if key_pressed () then
-                Debug.string (String.make 1 (read_key()));
+        (*debug_status ();*)
 
         synchronize ();
         Util.sleep_until(start +. (1.0/.60.0));
