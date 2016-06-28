@@ -1,12 +1,13 @@
 #! /bin/bash
 set -e
-rm -f a.out
-ocamlfind ocamlopt -thread -o a.out -linkpkg \
+rm -f test.out
+ocamlfind ocamlopt -thread -o test.out -linkpkg \
 		-package core \
 		-package graphics \
 		-package unix \
 		util.ml \
 		phys.ml \
-		main.ml \
+		phys_test.ml \
 
 ./clean
+./test.out
