@@ -30,6 +30,20 @@ let vec_add a b = {
     };
 ;;
 
+(* Vector multiply-add: a + s*b. *)
+let vec_madd a s b = { 
+        x = a.x +. s *. b.x;
+        y = a.y +. s *. b.y;
+    };
+;;
+
+
+(* Vector subtraction. *)
+let vec_sub a b = { 
+        x = a.x -. b.x;
+        y = a.y -. b.y;
+    };
+;;
 
 
 (* 2D triangle *)
@@ -56,6 +70,28 @@ let tr_transl t delta = {
         c = vec_add t.c delta;
     };
 ;;
+
+
+type edge = {
+    p1: vector;
+    p2: vector;
+}
+
+
+let intersect e1 e2 =
+        let u = vec_sub e1.p2 e1.p1 in
+        let v = vec_sub e2.p2 e2.p1 in
+        let w = vec_sub e2.p2 e1.p2 in
+
+        let t = (v.x*.w.y -. w.x*.v.y) /. (v.x*.u.y -. u.x*.v.y) in
+        let s = (u.x*.w.y -. w.x*.u.y) /. (v.x*.u.y -. u.x*.v.y) in
+
+        let i = vec_madd e1.p1 t u in
+        let j = vec_madd e2.p1 s v in
+
+        (i, j);
+;;
+
 
 
 (* Draws triangle t. *)
