@@ -2,13 +2,13 @@ open Graphics
 open Core.Std
 
 
-(* 2D point *)
+(* 2D point. *)
 type point = {
         mutable x: float; 
         mutable y: float;
 }
 
-(* Converts coordinates to int tuple, for rendering *)
+(* Converts coordinates to int tuple, for rendering. *)
 let ptint p =
         (int_of_float p.x, int_of_float p.y);
 ;;
@@ -22,6 +22,7 @@ type triangle = {
 }
 
 
+(* Constructs a triangle from vertex coordinates. *)
 let tr ax ay bx by cx cy = {
         a = {x=ax; y=ay}; 
         b = {x=bx; y=by}; 
@@ -29,7 +30,8 @@ let tr ax ay bx by cx cy = {
     };
 ;;
 
-(* Draws triangle t *)
+
+(* Draws triangle t. *)
 let trdraw t = 
         draw_poly [| ptint t.a; ptint t.b; ptint t.c |];
 ;;
