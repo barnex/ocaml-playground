@@ -5,9 +5,7 @@ ocamlfind ocamlopt -thread -o a.out -linkpkg \
 		-package core \
 		-package graphics \
 		-package unix \
-		debug.ml \
-		geom.ml \
 		util.ml \
-		main.ml
+		phys.ml \
 
 ./clean
