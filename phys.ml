@@ -17,6 +17,11 @@ let vec vx vy = {
 ;;
 
 
+let vec_str v = 
+    sprintf "(%f, %f)" v.x v.y;
+;;
+
+
 (* Converts coordinates to int tuple, for rendering. *)
 let vec_int p =
     (int_of_float p.x, int_of_float p.y);
@@ -77,11 +82,17 @@ type edge = {
     p2: vector;
 }
 
+let edge x1 y1 x2 y2 ={
+        p1 = {x=x1; y=y1};
+        p2 = {x=x2; y=y2};
+};
+;;
+
 
 let intersect e1 e2 =
         let u = vec_sub e1.p2 e1.p1 in
         let v = vec_sub e2.p2 e2.p1 in
-        let w = vec_sub e2.p2 e1.p2 in
+        let w = vec_sub e2.p1 e1.p1 in
 
         let t = (v.x*.w.y -. w.x*.v.y) /. (v.x*.u.y -. u.x*.v.y) in
         let s = (u.x*.w.y -. w.x*.u.y) /. (v.x*.u.y -. u.x*.v.y) in
