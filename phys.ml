@@ -2,23 +2,30 @@ open Graphics
 open Core.Std
 
 
-(* 2D point. *)
-type point = {
+(* 2D vector. *)
+type vector = {
         mutable x: float; 
         mutable y: float;
 }
 
 (* Converts coordinates to int tuple, for rendering. *)
-let ptint p =
+let vec_int p =
         (int_of_float p.x, int_of_float p.y);
 ;;
 
 
+let vec_add v delta =
+        v.x <- v.x +. delta.x;
+        v.y <- v.y +. delta.y;
+;;
+
+
+
 (* 2D triangle *)
 type triangle = {
-    a: point;
-    b: point;
-    c: point;
+    a: vector;
+    b: vector;
+    c: vector;
 }
 
 
@@ -31,9 +38,11 @@ let tr ax ay bx by cx cy = {
 ;;
 
 
+
+
 (* Draws triangle t. *)
 let trdraw t = 
-        draw_poly [| ptint t.a; ptint t.b; ptint t.c |];
+        draw_poly [| vec_int t.a; vec_int t.b; vec_int t.c |];
 ;;
 
 
