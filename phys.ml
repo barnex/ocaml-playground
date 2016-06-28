@@ -9,6 +9,7 @@ type vector = {
 }
 
 
+(* Vector constructor. *)
 let vec vx vy = {
         x = vx;
         y = vy
@@ -22,9 +23,10 @@ let vec_int p =
 ;;
 
 
-let vec_add v delta = { 
-        x = v.x +. delta.x;
-        y = v.y +. delta.y;
+(* Vector sum. *)
+let vec_add a b = { 
+        x = a.x +. b.x;
+        y = a.y +. b.y;
     };
 ;;
 
@@ -47,12 +49,14 @@ let tr ax ay bx by cx cy = {
 ;;
 
 
+(* Translate triangle t by delta. *)
 let tr_transl t delta = {
         a = vec_add t.a delta;
         b = vec_add t.b delta;
         c = vec_add t.c delta;
     };
 ;;
+
 
 (* Draws triangle t. *)
 let tr_draw t = 
