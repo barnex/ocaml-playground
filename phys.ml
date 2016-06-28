@@ -4,19 +4,30 @@ open Core.Std
 
 (* 2D vector. *)
 type vector = {
-        mutable x: float; 
-        mutable y: float;
+    x: float; 
+    y: float;
 }
+
+
+let vec vx vy = 
+    {
+        x = vx;
+        y = vy
+    };
+;;
+
 
 (* Converts coordinates to int tuple, for rendering. *)
 let vec_int p =
-        (int_of_float p.x, int_of_float p.y);
+    (int_of_float p.x, int_of_float p.y);
 ;;
 
 
 let vec_add v delta =
-        v.x <- v.x +. delta.x;
-        v.y <- v.y +. delta.y;
+    { 
+        x = v.x +. delta.x;
+        y = v.y +. delta.y;
+    };
 ;;
 
 
@@ -38,10 +49,16 @@ let tr ax ay bx by cx cy = {
 ;;
 
 
-
+let tr_transl t delta =
+    {
+        a = vec_add t.a delta;
+        b = vec_add t.b delta;
+        c = vec_add t.c delta;
+    };
+;;
 
 (* Draws triangle t. *)
-let trdraw t = 
+let tr_draw t = 
         draw_poly [| vec_int t.a; vec_int t.b; vec_int t.c |];
 ;;
 
@@ -51,7 +68,9 @@ let main () =
     auto_synchronize false;
 
     let t1 = tr 0. 0. 100. 100. 0. 100. in
-    trdraw t1;
+    tr_draw t1;
+    let t1 = tr_transl t1 (vec 50. 100.) in
+    tr_draw t1;
 
     let start = Unix.gettimeofday() in
     Util.sleep_until (start +. 100000.);
