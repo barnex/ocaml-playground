@@ -1,4 +1,8 @@
-_build
-*.swp
-*.out
+*.cmi
+*.cmo
+*.cmx
 *.native
+*.o
+*.out
+*.swp
+_build
