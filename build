@@ -1,12 +1,4 @@
 #! /bin/bash
 set -e
-rm -f a.out
-ocamlfind ocamlopt -thread -o a.out -linkpkg \
-		-package core \
-		-package graphics \
-		-package unix \
-		util.ml \
-		phys.ml \
-		main.ml \
-
 ./clean
+corebuild -pkg graphics main.native phys_test.native

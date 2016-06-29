@@ -1,3 +1,3 @@
 #! /bin/bash
-rm -fr *.cmx *.cmi *.cmo *.o _build
+rm -fr *.cmx *.cmi *.cmo *.o _build *.native
 

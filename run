@@ -1,4 +1,4 @@
 #! /bin/bash
 ./build
-./a.out
+./main.native
 
