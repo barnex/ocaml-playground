@@ -1,19 +1,21 @@
 all:
-	ocamlfind ocamlc -thread -o a.out -linkpkg \
+	ocamlfind ocamlc -w @A-44 -thread -o a.out -linkpkg \
 		-package core \
 		-package graphics \
 		-package unix \
 		util.ml \
+		vec.ml \
 		phys.ml \
 		main.ml \
 
 .PHONY: test
 test:
-	ocamlfind ocamlopt -thread -o test.out -linkpkg \
+	ocamlfind ocamlopt -w @A-44 -thread -o test.out -linkpkg \
 		-package core \
 		-package graphics \
 		-package unix \
 		util.ml \
+		vec.ml \
 		phys.ml \
 		phys_test.ml
 		./test.out

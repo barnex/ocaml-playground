@@ -1,3 +1,4 @@
 #! /bin/bash
 set -e
+./clean
 corebuild -pkg graphics main.native phys_test.native
