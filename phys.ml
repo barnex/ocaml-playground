@@ -109,12 +109,13 @@ let intersect e1 e2 =
         let t = (v.x*.w.y -. w.x*.v.y) /. (v.x*.u.y -. u.x*.v.y) in
         let s = (u.x*.w.y -. w.x*.u.y) /. (v.x*.u.y -. u.x*.v.y) in
 
-        let i = vec_madd e1.p1 t u in
-        let j = vec_madd e2.p1 s v in
+        let intersection = vec_madd e1.p1 t u in
+        let intersection2 = vec_madd e2.p1 s v in
 
-        assert ( (vec_norm (vec_sub i j)) < 1e-6 );
+        assert ( (vec_norm (vec_sub intersection intersection2)) < 1e-6 );
 
-        (i, j);
+        let ok = t >= 0. && t <= 1. && s >= 0. && s <= 1. in
+        (intersection, ok);
 ;;
 
 
