@@ -50,6 +50,17 @@ let vec_sub a b = {
     };
 ;;
 
+
+let vec_norm v = 
+        sqrt (v.x*.v.x +. v.y*.v.y);
+;;
+
+
+let vec_dist a b =
+        (vec_norm (vec_sub a b));
+;;
+
+
 (* 2D triangle *)
 type triangle = {
     a: vector;
@@ -100,6 +111,8 @@ let intersect e1 e2 =
 
         let i = vec_madd e1.p1 t u in
         let j = vec_madd e2.p1 s v in
+
+        assert ( (vec_norm (vec_sub i j)) < 1e-6 );
 
         (i, j);
 ;;
