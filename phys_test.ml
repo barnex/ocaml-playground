@@ -1,5 +1,6 @@
 open Core.Std
 open Phys
+open Vec
 
 let test_intersect () =
     let e1 = edge 2. 1. 6. 3. in

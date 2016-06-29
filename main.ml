@@ -1,5 +1,6 @@
 open Phys
 open Graphics
+open Vec
 
 let main () =
     open_graph " 820x620";
