@@ -4,7 +4,6 @@ all:
 		-package graphics \
 		-package unix \
 		util.ml \
-		vec.ml \
 		phys.ml \
 		main.ml \
 
@@ -15,7 +14,6 @@ test:
 		-package graphics \
 		-package unix \
 		util.ml \
-		vec.ml \
 		phys.ml \
 		phys_test.ml
 		./test.out

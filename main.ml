@@ -1,6 +1,5 @@
 open Phys
 open Graphics
-open Vec
 
 let main () =
     open_graph " 820x620";
@@ -8,7 +7,7 @@ let main () =
 
     let t1 = tr 0. 0. 100. 100. 0. 100. in
     tr_draw t1;
-    let t1 = tr_transl t1 (vec 50. 100.) in
+    let t1 = tr_transl t1 (vector 50. 100.) in
     tr_draw t1;
 
     let start = Unix.gettimeofday() in
