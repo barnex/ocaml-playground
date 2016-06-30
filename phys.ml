@@ -51,8 +51,13 @@ let vec_sub a b = {
 ;;
 
 
+let vec_dot a b =
+        a.x*.b.x +. a.y*.b.y;
+;;
+
+
 let vec_norm v = 
-        sqrt (v.x*.v.x +. v.y*.v.y);
+        sqrt (vec_dot v v)
 ;;
 
 
@@ -84,6 +89,19 @@ let tr_transl t delta = {
         b = vec_add t.b delta;
         c = vec_add t.c delta;
     };
+;;
+
+
+(* Does vector pt lie inside triangle tr? *)
+let inside tr pt =
+        let rel_b = vec_sub tr.b tr.a in
+        let rel_c = vec_sub tr.c tr.a in
+        let rel_p = vec_sub pt   tr.a in
+
+        let x = vec_dot rel_p rel_b in
+        let y = vec_dot rel_p rel_c in
+
+        x >= 0. && x <= 1. && y >= 0. && y <= 1. && x +. y <= 1.;
 ;;
 
 

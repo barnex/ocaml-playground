@@ -1,14 +1,20 @@
 open Core.Std
 open Phys
 
-type test = {e1: edge; e2: edge; inter: vector; ok: bool}
+type intersect_test = {e1: edge; e2: edge; inter: vector; ok: bool}
 
 let test_intersect () =
     let tests = [
             {e1 = (edge 2. 1. 6. 3.);
              e2 = (edge 5. 1. 2. 4.);
              inter = (vector 4. 2.);
-             ok = true } 
+             ok = true
+            };
+            {e1 = (edge 2. 1. 6. 3.);
+             e2 = (edge 3. 3. 2. 4.);
+             inter = (vector 4. 2.);
+             ok = false
+            };
     ] in
 
     let run_test n_failed t =
@@ -29,6 +35,7 @@ let test_intersect () =
         assert (n_failed = 0);
         
 ;;
+
 
 let main () =
         test_intersect();
