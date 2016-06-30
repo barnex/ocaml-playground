@@ -18,7 +18,7 @@ let vector vx vy = {
 
 
 let vec_str v = 
-    sprintf "(%f, %f)" v.x v.y;
+    sprintf "(%g, %g)" v.x v.y;
 ;;
 
 
@@ -98,6 +98,11 @@ let edge x1 y1 x2 y2 = {
         p1 = {x=x1; y=y1};
         p2 = {x=x2; y=y2};
     };
+;;
+
+
+let edge_str e =
+        sprintf "(%g, %g)-(%g, %g)" e.p1.x e.p1.y e.p2.x e.p2.y;
 ;;
 
 
