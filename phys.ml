@@ -92,6 +92,11 @@ let tr_transl t delta = {
 ;;
 
 
+let triangle_str tr =
+        sprintf "%s-%s-%s" (vec_str tr.a) (vec_str tr.b) (vec_str tr.c)
+;;
+
+
 (* Does vector pt lie inside triangle tr? *)
 let inside tr pt =
         let rel_b = vec_sub tr.b tr.a in
@@ -120,7 +125,7 @@ let edge x1 y1 x2 y2 = {
 
 
 let edge_str e =
-        sprintf "(%g, %g)-(%g, %g)" e.p1.x e.p1.y e.p2.x e.p2.y;
+        sprintf "%s-%s" (vec_str e.p1) (vec_str e.p2)
 ;;
 
 

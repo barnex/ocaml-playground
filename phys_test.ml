@@ -44,8 +44,51 @@ let test_intersect () =
 ;;
 
 
-let main () =
-        test_intersect();
+type inside_test = {tr: triangle; pt: vector; want: bool}
+
+let test_inside () =
+    let tests = [
+            {tr = (tr 1. 2. 4. 5. 6. 1.);
+             pt = (vector 3. 2.);
+             want = true;
+            };
+            {tr = (tr 1. 2. 4. 5. 6. 1.);
+             pt = (vector 4. 2.);
+             want = true;
+            };
+            {tr = (tr 1. 2. 4. 5. 6. 1.);
+             pt = (vector 4. 3.);
+             want = true;
+            };
+            {tr = (tr 1. 2. 4. 5. 6. 1.);
+             pt = (vector 2. 2.);
+             want = true;
+            };
+            {tr = (tr 1. 2. 4. 5. 6. 1.);
+             pt = (vector 6. 2.);
+             want = false;
+            };
+            {tr = (tr 1. 2. 4. 5. 6. 1.);
+             pt = (vector 2. 1.);
+             want = false;
+            };
+    ] in
+
+    let test_one t =
+        let got = inside t.tr t.pt in
+        let pass = (got = t.want) in
+        if not pass then
+            printf "inside %s %s: have %B, want: %B\n" 
+            (triangle_str t.tr) (vec_str t.pt)
+            got t.want;
+        pass
+    in
+
+    run_tests tests test_one;
 ;;
 
-main()
+
+let () =
+        test_intersect();
+        test_inside();
+;;
