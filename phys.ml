@@ -111,14 +111,18 @@ let triangle_str tr =
 
 (* Does vector pt lie inside triangle tr? *)
 let inside tr pt =
-        let rel_b = vec_sub tr.b tr.a in
-        let rel_c = vec_sub tr.c tr.a in
-        let rel_p = vec_sub pt   tr.a in
+        let x1, y1 = tr.a.x, tr.a.y in
+        let x2, y2 = tr.b.x, tr.b.y in
+        let x3, y3 = tr.c.x, tr.c.y in
 
-        let x = vec_dot rel_p rel_b in
-        let y = vec_dot rel_p rel_c in
+        let det = (y2-.y3)*.(x1-.x3) +.  (x3-.x2)*.(y1-.y3) in
+        let l1 =  ((y2-.y3)*.(pt.x-.x3) +. (x3-.x2)*.(pt.y-.y3)) /. det in
+        let l2 =  ((y3-.y1)*.(pt.x-.x3) +. (x1-.x3)*.(pt.y-.y3)) /. det in
+        let l3 = 1. -. l1 -. l2 in
 
-        x >= 0. && x <= 1. && y >= 0. && y <= 1. && x +. y <= 1.;
+        l1 >= 0. && l1 <= 1. &&
+        l2 >= 0. && l2 <= 1. && 
+        l3 >= 0. && l3 <= 1.;
 ;;
 
 
@@ -142,8 +146,8 @@ let edge_str e =
 
 
 let intersect e1 e2 =
-        let u = vec_normalize (vec_sub e1.p2 e1.p1) in
-        let v = vec_normalize (vec_sub e2.p2 e2.p1) in
+        let u = vec_sub e1.p2 e1.p1 in
+        let v = vec_sub e2.p2 e2.p1 in
         let w = vec_sub e2.p1 e1.p1 in
 
         let t = (v.x*.w.y -. w.x*.v.y) /. (v.x*.u.y -. u.x*.v.y) in

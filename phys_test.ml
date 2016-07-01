@@ -72,6 +72,10 @@ let test_inside () =
              pt = (vector 2. 1.);
              want = false;
             };
+            {tr = (tr 1. 2. 4. 5. 6. 1.);
+             pt = (vector 2. 4.);
+             want = false;
+            };
     ] in
 
     let test_one t =
