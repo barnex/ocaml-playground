@@ -17,6 +17,7 @@ let vector vx vy = {
 ;;
 
 
+(* Vector to string. *)
 let vec_str v = 
     sprintf "(%g, %g)" v.x v.y;
 ;;
@@ -51,11 +52,13 @@ let vec_sub a b = {
 ;;
 
 
+(* Vector dot product. *)
 let vec_dot a b =
         a.x*.b.x +. a.y*.b.y;
 ;;
 
 
+(* Scalar * vector product. *)
 let vec_mul a v = {
         x = a *. v.x;
         y = a *. v.y;
@@ -63,16 +66,19 @@ let vec_mul a v = {
 ;;
 
 
+(* Vector length. *)
 let vec_norm v = 
         sqrt (vec_dot v v)
 ;;
 
 
+(* Re-scale vector to unit length. *)
 let vec_normalize v =
         vec_mul (1. /. vec_norm v) v;
 ;;
 
 
+(* Norm of difference between vectors a and b. *)
 let vec_dist a b =
         (vec_norm (vec_sub a b));
 ;;
@@ -104,6 +110,7 @@ let tr_transl t delta = {
 ;;
 
 
+(* Triangle to string. *)
 let triangle_str tr =
         sprintf "%s-%s-%s" (vec_str tr.a) (vec_str tr.b) (vec_str tr.c)
 ;;
@@ -140,11 +147,14 @@ let edge x1 y1 x2 y2 = {
 ;;
 
 
+(* Edge to string. *)
 let edge_str e =
         sprintf "%s-%s" (vec_str e.p1) (vec_str e.p2)
 ;;
 
 
+(* Returns the intersection point of two edges,
+ * and a boolean 'ok', true when they actually intersect. *)
 let intersect e1 e2 =
         let u = vec_sub e1.p2 e1.p1 in
         let v = vec_sub e2.p2 e2.p1 in
@@ -161,7 +171,6 @@ let intersect e1 e2 =
         let ok = t >= 0. && t <= 1. && s >= 0. && s <= 1. in
         (intersection, ok);
 ;;
-
 
 
 (* Draws triangle t. *)
