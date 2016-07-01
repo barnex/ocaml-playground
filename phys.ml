@@ -56,8 +56,20 @@ let vec_dot a b =
 ;;
 
 
+let vec_mul a v = {
+        x = a *. v.x;
+        y = a *. v.y;
+    };
+;;
+
+
 let vec_norm v = 
         sqrt (vec_dot v v)
+;;
+
+
+let vec_normalize v =
+        vec_mul (1. /. vec_norm v) v;
 ;;
 
 
@@ -130,8 +142,8 @@ let edge_str e =
 
 
 let intersect e1 e2 =
-        let u = vec_sub e1.p2 e1.p1 in
-        let v = vec_sub e2.p2 e2.p1 in
+        let u = vec_normalize (vec_sub e1.p2 e1.p1) in
+        let v = vec_normalize (vec_sub e2.p2 e2.p1) in
         let w = vec_sub e2.p1 e1.p1 in
 
         let t = (v.x*.w.y -. w.x*.v.y) /. (v.x*.u.y -. u.x*.v.y) in
