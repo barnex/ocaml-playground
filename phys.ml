@@ -173,6 +173,11 @@ let intersect e1 e2 =
 ;;
 
 
+let convex_area points =
+        0.
+;;
+
+
 (* Draws triangle t. *)
 let tr_draw t = 
         draw_poly [| vec_int t.a; vec_int t.b; vec_int t.c |];

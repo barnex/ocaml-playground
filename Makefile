@@ -9,7 +9,7 @@ all:
 
 .PHONY: test
 test:
-	ocamlfind ocamlc -g -w @A-44 -thread -o test.out -linkpkg \
+	ocamlfind ocamlc -g -thread -o test.out -linkpkg \
 		-package core \
 		-package graphics \
 		-package unix \

@@ -96,7 +96,32 @@ let test_inside () =
 ;;
 
 
+type convex_area_test = {points: (vector Array.t); want: float }
+
+let test_convex_area () = 
+    let tests = [
+            {points= [| (vector 1. 1.); (vector 1. 2.); (vector 3. 1.) |]; want = 1.};
+            {points= [| (vector 3. 2.); (vector 5. 0.); (vector 5. 2.) |]; want = 2.};
+    ] in
+
+    let test_one t =
+        let got = convex_area t.points in
+        let pass = (got = t.want) in
+        if not pass then (
+            printf "convex_area ";
+            Array.iter t.points (fun x -> printf "%s" (vec_str x));
+            printf ": got: %g, want: %g\n" got t.want;
+        );
+        pass;
+    in
+
+    run_tests tests test_one;
+;;
+
+
+
 let () =
         test_intersect();
         test_inside();
+        test_convex_area();
 ;;
