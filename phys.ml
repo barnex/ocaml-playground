@@ -110,6 +110,14 @@ let tr_transl t delta = {
 ;;
 
 
+(* Area of triangle abc. *)
+let tr_area a b c =
+        let u = vec_sub b a in
+        let v = vec_sub c a in
+        abs_float (0.5 *. (v.x*.u.y -. u.x*.v.y));
+;;
+
+
 (* Triangle to string. *)
 let triangle_str tr =
         sprintf "%s-%s-%s" (vec_str tr.a) (vec_str tr.b) (vec_str tr.c)
@@ -174,7 +182,10 @@ let intersect e1 e2 =
 
 
 let convex_area points =
-        0.
+        if Array.length points < 3 then
+                0.
+        else
+                tr_area points.(0) points.(1) points.(2)
 ;;
 
 
