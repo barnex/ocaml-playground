@@ -119,9 +119,32 @@ let test_convex_area () =
 ;;
 
 
+type center_test = {points: (vector Array.t); want: vector }
+
+let test_center () = 
+    let tests = [
+            {points= [| (vector 1. 1.); (vector 2. 1.); (vector 3. 1.) |]; want = (vector 2. 1.) };
+            {points= [| (vector 2. 1.); (vector 5. 0.); (vector 5. 2.) |]; want = (vector 4. 1.) };
+    ] in
+
+    let test_one t =
+        let got = center t.points in
+        let pass = (got = t.want) in
+        if not pass then (
+            printf "center ";
+            Array.iter t.points (fun x -> printf "%s" (vec_str x));
+            printf ": got: %s, want: %s\n" (vec_str got) (vec_str t.want);
+        );
+        pass;
+    in
+
+    run_tests tests test_one;
+;;
+
 
 let () =
         test_intersect();
         test_inside();
         test_convex_area();
+        test_center();
 ;;

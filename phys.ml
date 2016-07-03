@@ -114,7 +114,7 @@ let tr_transl t delta = {
 let tr_area a b c =
         let u = vec_sub b a in
         let v = vec_sub c a in
-        abs_float (0.5 *. (v.x*.u.y -. u.x*.v.y));
+        Float.abs (0.5 *. (v.x*.u.y -. u.x*.v.y));
 ;;
 
 
@@ -186,6 +186,12 @@ let convex_area points =
                 0.
         else
                 tr_area points.(0) points.(1) points.(2)
+;;
+
+
+let center points =
+        let sum = Array.fold points ~init: (vector 0. 0.) ~f:vec_add in
+        vec_mul (1. /. (float_of_int (Array.length points))) sum;
 ;;
 
 
