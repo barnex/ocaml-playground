@@ -36,6 +36,7 @@ let vec_add a b = {
     };
 ;;
 
+
 (* Vector multiply-add: a + s*b. *)
 let vec_madd a s b = { 
         x = a.x +. s *. b.x;
